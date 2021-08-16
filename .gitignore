@@ -1,0 +1,8 @@
+# Exlude API keys file
+*.keys
+
+# Exclude cache
+*__pycache__*
+
+# Build directory
+dist

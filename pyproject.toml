@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "mouser"
+version = "0.1.0"
+description = ""
+authors = ["eeintech <eeintech@eeinte.ch>"]
+maintainers = ["eeintech <eeintech@eeinte.ch>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/sparkmicro/mouser"
+repository = "https://github.com/sparkmicro/mouser"
+keywords = ["mouser", "api", "python"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+click = "^8.0"
+requests = "^2.26"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[tool.poetry.scripts]
+mouser = 'mouser.cli:mouser_cli'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
