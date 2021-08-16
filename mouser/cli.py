@@ -1,7 +1,7 @@
 import click
 import json
 
-from .api import MouserOrderRequest, MouserPartSearchRequest
+from .api import *
 
 
 @click.command()
@@ -20,7 +20,7 @@ def mouser_cli(request_type, operation, number, export):
         request = MouserOrderRequest(operation, *args)
 
         if request.url:
-            print(f'[QUERY]\tURL {request.url}')
+            print(f'[LINK]\t{request.api_url}')
             # Run request
             request.run()
 
@@ -36,7 +36,7 @@ def mouser_cli(request_type, operation, number, export):
         request = MouserPartSearchRequest(operation, *args)
 
         if request.url:
-            print(f'[QUERY]\tURL {request.url}')
+            print(f'[LINK]\t{request.api_url}')
 
             if operation == 'partnumber':
                 if not number:
@@ -45,7 +45,13 @@ def mouser_cli(request_type, operation, number, export):
                     # Run request
                     search = request.part_search(number)
                     # Print body
-                    print(f'[BODY]\t', end=''); print(json.dumps(request.body, indent=4, sort_keys=True))
+                    print('[BODY]'); print(json.dumps(request.body, indent=4, sort_keys=True))
                     if search:
                         # Print result
                         print('[DATA]'); request.print_clean_response()
+
+    elif request_type == 'cart':
+        request = MouserCartRequest(operation, *args)
+
+    elif request_type == 'history':
+        request = MouserOrderHistoryRequest(operation, *args)

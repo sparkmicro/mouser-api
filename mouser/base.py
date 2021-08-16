@@ -26,7 +26,7 @@ def get_api_keys():
                 api_keys = []
 
                 for key in keys_in_file:
-                    api_keys.append(key)
+                    api_keys.append(key.replace('\n',''))
 
                 if len(api_keys) == 2:
                     return api_keys
@@ -42,6 +42,7 @@ class MouserAPIRequest:
     """ Mouser API Request """
 
     url = None
+    api_url = None
     method = None
     body = {}
     response = None
@@ -50,11 +51,13 @@ class MouserAPIRequest:
     def __init__(self, url, method, *args):
         if not url or not method:
             return None
-        self.url = BASE_URL + url
+        self.api_url = BASE_URL + url
         self.method = method
+
         # Append argument
         if len(args) == 1:
-            self.url += '/' + str(args[0])
+            self.api_url += '/' + str(args[0])
+            
         # Append API Key
         if self.name == 'Part Search':
             self.api_key = get_api_keys()[1]
@@ -62,7 +65,7 @@ class MouserAPIRequest:
             self.api_key = get_api_keys()[0]
 
         if self.api_key:
-            self.url += '?apiKey=' + self.api_key
+            self.url = self.api_url + '?apiKey=' + self.api_key
 
     def get(self, url):
         response = requests.get(url=url)
@@ -92,9 +95,6 @@ class MouserAPIRequest:
 
         return {}
 
-    def print_body(self):
-        print()
-
     def print_response(self):
         print(json.dumps(self.get_response(), indent=4, sort_keys=True))
 
@@ -113,17 +113,19 @@ class MouserBaseRequest(MouserAPIRequest):
         if operation not in self.operations:
             print(f'[{self.name}]\tInvalid Operation')
             print('-' * 10)
-            print('Valid operations:')
+            
             valid_operations = [operation for operation, values in self.operations.items() if values[0] and values[1]]
-            for operation in valid_operations:
-                print(f'- {operation}')
+            if valid_operations:
+                print('Valid operations:')
+                for operation in valid_operations:
+                    print(f'- {operation}')
             return
             
         self.operation = operation
         (method, url) = self.operations.get(self.operation, ('', ''))
 
         if not url or not method or method not in self.allowed_methods:
-            print(f'[{self.name}]\tOperation Not Supported')
+            print(f'[{self.name}]\tOperation "{operation}" Not Yet Supported')
             return
 
         super().__init__(url, method, *args)
