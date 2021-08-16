@@ -57,14 +57,21 @@ mouser
 
 ## Usage
 
+This command line tool reflects the usage from Mouser's API structure [documented here](https://api.mouser.com/api/docs/ui/index#/).  
+The first positional argument is the category of the request: cart (for MouserCart), order, history (for MouserOrderHistory) and search (for SearchAPI).
+The second argument is the type of operation from the list of operations for each category.
+
+Run `mouser --help` for more information about the usage.
+
+### Examples
 > The examples below assume this package was installed using Pip (for more options, see [above](#run))
 
-### Part Number Search
+#### Part Number Search
 ```bash
 mouser search partnumber --number XXX
 ```
 
-### Export order to CSV
+#### Export order to CSV
 ``` bash
 mouser order get --number XXX --export
 ```
