@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "mouser"
 version = "0.1.0"
-description = ""
+description = "Mouser Python API"
 authors = ["eeintech <eeintech@eeinte.ch>"]
 maintainers = ["eeintech <eeintech@eeinte.ch>"]
 license = "MIT"
