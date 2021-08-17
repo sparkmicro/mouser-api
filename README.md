@@ -1,6 +1,16 @@
 # Mouser Python API
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sparkmicro/mouser-api/blob/main/LICENSE)
+[![Python Versions](https://raw.githubusercontent.com/sparkmicro/Ki-nTree/master/images/python_versions.svg)](https://www.python.org/)
+[![Style | Tests](https://github.com/sparkmicro/mouser-api/actions/workflows/tests.yaml/badge.svg)](https://github.com/sparkmicro/mouser-api/actions)
+
 ## Setup
+
+### Requirements
+
+* Tested with Python 3.7+
+* Dependencies: [click](https://click.palletsprojects.com/en/8.0.x/) and [requests](https://docs.python-requests.org/en/master/) packages
+
 ### Mouser API Keys
 
 Mouser provides two separate API keys:

@@ -64,7 +64,6 @@ class MouserAPIRequest:
         else:
             self.api_key = get_api_keys(file_keys)[0]
 
-        print(self.api_url)
         if self.api_key:
             self.url = self.api_url + '?apiKey=' + self.api_key
 
