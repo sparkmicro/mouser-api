@@ -60,7 +60,7 @@ jobs:
       - name: Run tests
         run: |
           poetry run python run_tests.py
-          poetry run mouser order get --number ${{ MOUSER_ORDER_NUMBER }} | egrep '"OrderID":' >/dev/null 2>&1
+          poetry run mouser order get --number $MOUSER_ORDER_NUMBER | egrep '"OrderID":' >/dev/null 2>&1
         env:
           MOUSER_ORDER_API_KEY: ${{ secrets.MOUSER_ORDER_API_KEY }}
           MOUSER_PART_API_KEY: ${{ secrets.MOUSER_PART_API_KEY }}
