@@ -6,11 +6,11 @@ import requests
 
 # Mouser Base URL
 BASE_URL = 'https://api.mouser.com/api/v1.0'
-# API KEYS FILE
-API_KEYS_FILE = 'mouser_api.keys'
+# API Keys File (Default)
+API_KEYS_FILE = 'mouser_api_keys.yaml'
 
 
-def get_api_keys():
+def get_api_keys(filename):
     """ Mouser API Keys """
 
     # Look for API keys in environmental variables
@@ -22,20 +22,20 @@ def get_api_keys():
     # Else look into configuration file
     if not(api_keys[0] or api_keys[1]):
         try:
-            with open(API_KEYS_FILE, 'r') as keys_in_file:
+            with open(filename, 'r') as keys_in_file:
                 api_keys = []
 
                 for key in keys_in_file:
-                    api_keys.append(key.replace('\n',''))
+                    api_keys.append(key.replace('\n', ''))
 
                 if len(api_keys) == 2:
                     return api_keys
                 else:
                     pass
         except FileNotFoundError:
-            print(f'[ERROR]\tAPI Keys File "{API_KEYS_FILE}" Not Found')
+            print(f'[ERROR]\tAPI Keys File "{filename}" Not Found')
 
-    return ['', '']
+    return api_keys
 
 
 class MouserAPIRequest:
@@ -48,7 +48,7 @@ class MouserAPIRequest:
     response = None
     api_key = None
 
-    def __init__(self, url, method, *args):
+    def __init__(self, url, method, *args, file_keys=API_KEYS_FILE):
         if not url or not method:
             return None
         self.api_url = BASE_URL + url
@@ -57,13 +57,14 @@ class MouserAPIRequest:
         # Append argument
         if len(args) == 1:
             self.api_url += '/' + str(args[0])
-            
+
         # Append API Key
         if self.name == 'Part Search':
-            self.api_key = get_api_keys()[1]
+            self.api_key = get_api_keys(file_keys)[1]
         else:
-            self.api_key = get_api_keys()[0]
+            self.api_key = get_api_keys(file_keys)[0]
 
+        print(self.api_url)
         if self.api_key:
             self.url = self.api_url + '?apiKey=' + self.api_key
 

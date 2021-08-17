@@ -152,7 +152,6 @@ class MouserPartSearchRequest(MouserBaseRequest):
 
         return body
 
-
     def part_search(self, part_number, option='None'):
         '''Mouser Part Number Search '''
 

@@ -11,7 +11,7 @@ Go to [Mouser's API hub](https://www.mouser.com/api-hub/) to request the keys.
 
 To store the keys, two options:
 * create two environmental variables `MOUSER_ORDER_API_KEY` and `MOUSER_PART_API_KEY` with the respective values of each key
-* create a file named `mouser_api.keys` with the order API key on the first line and the part API key on a second line.
+* create a file named `mouser_api_keys.yaml` with the order API key on the first line and the part API key on a second line.
 
 The keys will be automatically loaded for each API request.
 

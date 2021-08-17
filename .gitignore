@@ -1,5 +1,5 @@
 # Exlude API keys file
-*.keys
+*.yaml
 
 # Exclude cache
 *__pycache__*
