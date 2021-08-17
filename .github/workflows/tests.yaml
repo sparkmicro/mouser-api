@@ -1,0 +1,70 @@
+name: style | tests
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*.*.*"
+    paths-ignore:
+      - README.md
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.7, 3.9]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install -U flake8
+      - name: PEP checks
+        run: >
+          flake8 mouser_cli.py run_tests.py mouser/*
+  
+  tests:
+    name: Tests
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.7, 3.9]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install -U poetry
+      - name: Poetry setup
+        run: |
+          poetry install
+      - name: Run tests
+        run: |
+          poetry run python run_tests.py
+          poetry run mouser order get --number ${{ MOUSER_ORDER_NUMBER }} | egrep '"OrderID":' >/dev/null 2>&1
+        env:
+          MOUSER_ORDER_API_KEY: ${{ secrets.MOUSER_ORDER_API_KEY }}
+          MOUSER_PART_API_KEY: ${{ secrets.MOUSER_PART_API_KEY }}
+          MOUSER_ORDER_NUMBER: ${{ secrets.MOUSER_ORDER_NUMBER }}
+      - name: Run build
+        run: |
+          poetry build
