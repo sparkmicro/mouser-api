@@ -24,7 +24,7 @@ def mouser_cli(request_type, operation, number, export):
     # Create request
     if request_type == 'order':
         args.append(number)
-        request = MouserOrderRequest(operation, API_KEYS_FILE,  *args)
+        request = MouserOrderRequest(operation, API_KEYS_FILE, *args)
 
         if request.url:
             print(f'[LINK]\t{request.api_url}')
