@@ -24,7 +24,7 @@ def mouser_cli(request_type, operation, number, export):
     # Create request
     if request_type == 'order':
         args.append(number)
-        request = MouserOrderRequest(operation, file_keys=API_KEYS_FILE, *args)
+        request = MouserOrderRequest(operation, API_KEYS_FILE,  *args)
 
         if request.url:
             print(f'[LINK]\t{request.api_url}')
@@ -41,7 +41,7 @@ def mouser_cli(request_type, operation, number, export):
                 request.print_response()
 
     elif request_type == 'search':
-        request = MouserPartSearchRequest(operation, file_keys=API_KEYS_FILE, *args)
+        request = MouserPartSearchRequest(operation, API_KEYS_FILE, *args)
 
         if request.url:
             print(f'[LINK]\t{request.api_url}')
@@ -61,7 +61,7 @@ def mouser_cli(request_type, operation, number, export):
                         request.print_clean_response()
 
     elif request_type == 'cart':
-        request = MouserCartRequest(operation, file_keys=API_KEYS_FILE, *args)
+        request = MouserCartRequest(operation, API_KEYS_FILE, *args)
 
     elif request_type == 'history':
-        request = MouserOrderHistoryRequest(operation, file_keys=API_KEYS_FILE, *args)
+        request = MouserOrderHistoryRequest(operation, API_KEYS_FILE, *args)
