@@ -14,7 +14,7 @@ def test_search_partnumber():
     assert request.api_url == 'https://api.mouser.com/api/v1.0/search/partnumber'
 
     success = request.part_search(partnumber)
-    assert success == True
+    assert success is True
 
     part = request.get_clean_response()
     assert part['Manufacturer'] == 'Diodes Incorporated'

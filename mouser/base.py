@@ -6,11 +6,9 @@ import requests
 
 # Mouser Base URL
 BASE_URL = 'https://api.mouser.com/api/v1.0'
-# API Keys File (Default)
-API_KEYS_FILE = 'mouser_api_keys.yaml'
 
 
-def get_api_keys(filename):
+def get_api_keys(filename=None):
     """ Mouser API Keys """
 
     # Look for API keys in environmental variables
@@ -20,7 +18,7 @@ def get_api_keys(filename):
     ]
 
     # Else look into configuration file
-    if not(api_keys[0] or api_keys[1]):
+    if not(api_keys[0] or api_keys[1]) and filename:
         try:
             with open(filename, 'r') as keys_in_file:
                 api_keys = []
@@ -48,7 +46,7 @@ class MouserAPIRequest:
     response = None
     api_key = None
 
-    def __init__(self, url, method, *args, file_keys=API_KEYS_FILE):
+    def __init__(self, url, method, file_keys=None, *args):
         if not url or not method:
             return None
         self.api_url = BASE_URL + url
@@ -107,7 +105,7 @@ class MouserBaseRequest(MouserAPIRequest):
     operation = None
     operations = {}
 
-    def __init__(self, operation, *args):
+    def __init__(self, operation, file_keys=None, *args):
         ''' Init '''
 
         if operation not in self.operations:
@@ -128,7 +126,7 @@ class MouserBaseRequest(MouserAPIRequest):
             print(f'[{self.name}]\tOperation "{operation}" Not Yet Supported')
             return
 
-        super().__init__(url, method, *args)
+        super().__init__(url, method, file_keys, *args)
 
     def export_csv(self, file_path: str, data: dict):
         ''' Export dictionary data to CSV '''

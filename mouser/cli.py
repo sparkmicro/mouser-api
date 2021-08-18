@@ -6,6 +6,10 @@ from .api import MouserOrderRequest, MouserPartSearchRequest
 from .api import MouserCartRequest, MouserOrderHistoryRequest
 
 
+# API Keys File (Default)
+API_KEYS_FILE = 'mouser_api_keys.yaml'
+
+
 @click.command()
 @click.version_option(version=__version__, prog_name='Mouser Python API')
 @click.argument('request_type', type=click.Choice(['cart', 'history', 'order', 'search'], case_sensitive=False), required=True)
@@ -20,7 +24,7 @@ def mouser_cli(request_type, operation, number, export):
     # Create request
     if request_type == 'order':
         args.append(number)
-        request = MouserOrderRequest(operation, *args)
+        request = MouserOrderRequest(operation, file_keys=API_KEYS_FILE, *args)
 
         if request.url:
             print(f'[LINK]\t{request.api_url}')
@@ -37,7 +41,7 @@ def mouser_cli(request_type, operation, number, export):
                 request.print_response()
 
     elif request_type == 'search':
-        request = MouserPartSearchRequest(operation, *args)
+        request = MouserPartSearchRequest(operation, file_keys=API_KEYS_FILE, *args)
 
         if request.url:
             print(f'[LINK]\t{request.api_url}')
@@ -57,7 +61,7 @@ def mouser_cli(request_type, operation, number, export):
                         request.print_clean_response()
 
     elif request_type == 'cart':
-        request = MouserCartRequest(operation, *args)
+        request = MouserCartRequest(operation, file_keys=API_KEYS_FILE, *args)
 
     elif request_type == 'history':
-        request = MouserOrderHistoryRequest(operation, *args)
+        request = MouserOrderHistoryRequest(operation, file_keys=API_KEYS_FILE, *args)
