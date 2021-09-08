@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sparkmicro/mouser-api/blob/main/LICENSE)
 [![Python Versions](https://raw.githubusercontent.com/sparkmicro/Ki-nTree/master/images/python_versions.svg)](https://www.python.org/)
+[![PyPI](https://img.shields.io/pypi/v/mouser)](https://pypi.org/project/mouser/)
 [![Style | Tests](https://github.com/sparkmicro/mouser-api/actions/workflows/tests.yaml/badge.svg)](https://github.com/sparkmicro/mouser-api/actions)
 
 ## Setup
@@ -27,6 +28,12 @@ The keys will be automatically loaded for each API request.
 
 ### Install
 
+#### Pip
+
+``` bash
+pip install mouser
+```
+
 #### Manually
 
 1. Create virtual environment and activate it
@@ -37,15 +44,13 @@ The keys will be automatically loaded for each API request.
 1. Install `poetry` package: `pip install poetry`
 2. Run `poetry install`
 
+### Run
+
 #### Pip
 
-> WARNING: This procedure installs from TestPyPI (PyPI is pending)
-
-``` bash
-pip install --index-url https://test.pypi.org/simple/ mouser
+```bash
+mouser
 ```
-
-### Run
 
 #### Manually
 
@@ -57,12 +62,6 @@ python mouser_cli.py
 
 ```bash
 poetry run mouser
-```
-
-#### Pip
-
-```bash
-mouser
 ```
 
 ## Usage
