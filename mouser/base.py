@@ -18,7 +18,7 @@ def get_api_keys(filename=None):
     ]
 
     # Else look into configuration file
-    if not(api_keys[0] or api_keys[1]) and filename:
+    if not (api_keys[0] or api_keys[1]) and filename:
         try:
             with open(filename, 'r') as keys_in_file:
                 api_keys = []
@@ -64,6 +64,8 @@ class MouserAPIRequest:
 
         if self.api_key:
             self.url = self.api_url + '?apiKey=' + self.api_key
+        else:
+            raise FileNotFoundError('API Keys Are Missing')
 
     def get(self, url):
         response = requests.get(url=url)

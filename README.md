@@ -9,7 +9,7 @@
 
 ### Requirements
 
-* Tested with Python 3.7+
+* Tested with Python 3.8+
 * Dependencies: [click](https://click.palletsprojects.com/en/8.0.x/) and [requests](https://docs.python-requests.org/en/master/) packages
 
 ### Mouser API Keys
