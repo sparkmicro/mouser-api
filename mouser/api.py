@@ -122,7 +122,7 @@ class MouserPartSearchRequest(MouserBaseRequest):
                 part_data = parts[0]
                 # Merge
                 for key in cleaned_data:
-                    cleaned_data[key] = part_data[key]
+                    cleaned_data[key] = part_data.get(key, None)
 
         return cleaned_data
 
