@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mouser"
-version = "0.1.3"
+version = "0.1.4"
 description = "Mouser Python API"
 authors = ["eeintech <eeintech@eeinte.ch>"]
 maintainers = ["eeintech <eeintech@eeinte.ch>"]
@@ -12,11 +12,11 @@ keywords = ["mouser", "api", "python"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-click = "^8.0"
-requests = "^2.26"
+click = "^8.1"
+requests = "^2.31"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.4"
 
 [tool.poetry.scripts]
 mouser = 'mouser.cli:mouser_cli'
