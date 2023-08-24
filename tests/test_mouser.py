@@ -3,7 +3,7 @@ from mouser.api import MouserPartSearchRequest
 
 
 def test_version():
-    assert __version__ == '0.1.4'
+    assert __version__ == '0.1.5'
 
 
 def test_search_partnumber(file_keys='mouser_api_keys.yaml'):
