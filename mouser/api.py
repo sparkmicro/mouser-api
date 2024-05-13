@@ -31,7 +31,7 @@ class MouserOrderRequest(MouserBaseRequest):
 
     name = 'Order'
     operations = {
-        'get': ('GET', '/order'),
+        'get': ('GET', '/v1/order'),
         'create': ('', ''),
         'submit': ('', ''),
         'options': ('', ''),
@@ -88,9 +88,9 @@ class MouserPartSearchRequest(MouserBaseRequest):
 
     name = 'Part Search'
     operations = {
-        'keyword': ('POST', '/search/keyword'),
+        'keyword': ('POST', '/v1/search/keyword'),
         'keywordandmanufacturer': ('', ''),
-        'partnumber': ('POST', '/search/partnumber'),
+        'partnumber': ('POST', '/v1/search/partnumber'),
         'partnumberandmanufacturer': ('', ''),
         'manufacturerlist': ('', ''),
     }
@@ -128,7 +128,6 @@ class MouserPartSearchRequest(MouserBaseRequest):
                     for key in cleaned_part_data:
                         cleaned_part[key] = first_part.get(key, None)
                     cleaned_data.append(cleaned_part)
-                    print(cleaned_data)
 
                 if self.operation == 'keyword':
 
@@ -139,7 +138,7 @@ class MouserPartSearchRequest(MouserBaseRequest):
                             cleaned_part[key] = part.get(key, None)
                         cleaned_data.append(cleaned_part)
 
-        return cleaned_data
+                return cleaned_data
 
     def print_clean_response(self):
         response_data = self.get_clean_response()
