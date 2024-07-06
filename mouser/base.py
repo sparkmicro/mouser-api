@@ -5,7 +5,7 @@ import requests
 
 
 # Mouser Base URL
-BASE_URL = 'https://api.mouser.com/api/v1.0'
+BASE_URL = 'https://api.mouser.com/api'
 
 
 def get_api_keys(filename=None):
