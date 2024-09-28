@@ -31,7 +31,7 @@ class MouserOrderRequest(MouserBaseRequest):
 
     name = 'Order'
     operations = {
-        'get': ('GET', '/v1/order'),
+        'get': ('GET', '/order'),
         'create': ('', ''),
         'submit': ('', ''),
         'options': ('', ''),
@@ -88,9 +88,9 @@ class MouserPartSearchRequest(MouserBaseRequest):
 
     name = 'Part Search'
     operations = {
-        'keyword': ('POST', '/v1/search/keyword'),
+        'keyword': ('POST', '/search/keyword'),
         'keywordandmanufacturer': ('', ''),
-        'partnumber': ('POST', '/v1/search/partnumber'),
+        'partnumber': ('POST', '/search/partnumber'),
         'partnumberandmanufacturer': ('', ''),
         'manufacturerlist': ('', ''),
     }
