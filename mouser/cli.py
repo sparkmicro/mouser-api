@@ -16,7 +16,7 @@ API_KEYS_FILE = 'mouser_api_keys.yaml'
 @click.argument('operation', required=True)
 @click.option('--number', required=False, help='Part or Order number.')
 @click.option('--keyword', required=False, help='Keyword(s) to search')
-@click.option('--record-limit' , required=False, help='How many records --keyword search should return')
+@click.option('--record-limit', required=False, help='How many records --keyword search should return')
 @click.option('--option', required=False, help='Options supported by Mouser search engine. Available options depend on OPERATION.')
 @click.option('--export', is_flag=True, required=False, help='Export data to CSV.')
 def mouser_cli(request_type, operation, number, keyword, record_limit, option, export):
@@ -53,9 +53,9 @@ def mouser_cli(request_type, operation, number, keyword, record_limit, option, e
                 if not number:
                     print('[ERROR]\tMissing Mouser Part Number')
                 else:
-                    if option not in [None,'None','Exact']:
+                    if option not in [None, 'None', 'Exact']:
                         print('[ERROR]\t --option must be [None|Exact]')
-                    else:         
+                    else:
                         # Run request
                         search = request.part_search(number, option)
                         # Print body
@@ -65,12 +65,12 @@ def mouser_cli(request_type, operation, number, keyword, record_limit, option, e
                             # Print result
                             print('[DATA]')
                             request.print_clean_response()
-            
+
             if operation == 'keyword':
                 if not keyword:
                     print('[ERROR]\t Missing --keyword flag and keyword(s)')
                 else:
-                    if option not in [None,'None','Rohs','InStock','RohsAndInStock']:
+                    if option not in [None, 'None', 'Rohs', 'InStock', 'RohsAndInStock']:
                         print('[ERROR]\t --option must be [None|Rohs|InStock|RohsAndInStock]')
                     else:
                         # Run request
@@ -82,7 +82,6 @@ def mouser_cli(request_type, operation, number, keyword, record_limit, option, e
                             # Print result
                             print('[DATA]')
                             request.print_clean_response()
-
 
     elif request_type == 'cart':
         request = MouserCartRequest(operation, API_KEYS_FILE, *args)
