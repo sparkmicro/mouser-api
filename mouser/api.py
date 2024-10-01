@@ -88,7 +88,7 @@ class MouserPartSearchRequest(MouserBaseRequest):
 
     name = 'Part Search'
     operations = {
-        'keyword': ('', ''),
+        'keyword': ('POST', '/search/keyword'),
         'keywordandmanufacturer': ('', ''),
         'partnumber': ('POST', '/search/partnumber'),
         'partnumberandmanufacturer': ('', ''),
@@ -96,7 +96,7 @@ class MouserPartSearchRequest(MouserBaseRequest):
     }
 
     def get_clean_response(self):
-        cleaned_data = {
+        cleaned_part_data = {
             'Availability': '',
             'Category': '',
             'DataSheetUrl': '',
@@ -118,13 +118,27 @@ class MouserPartSearchRequest(MouserBaseRequest):
                 parts = None
 
             if parts:
-                # Process first part
-                part_data = parts[0]
-                # Merge
-                for key in cleaned_data:
-                    cleaned_data[key] = part_data.get(key, None)
+                cleaned_data = []
+                
+                if self.operation == 'partnumber':
+                    # Process first part
+                    first_part = parts[0]
+                    # Merge
+                    cleaned_part = {}
+                    for key in cleaned_part_data:
+                        cleaned_part[key] = first_part.get(key, None)
+                    cleaned_data.append(cleaned_part)
 
-        return cleaned_data
+                if self.operation == 'keyword':
+
+                    # Process all parts
+                    for part in parts:
+                        cleaned_part = {}
+                        for key in cleaned_part_data:
+                            cleaned_part[key] = part.get(key, None)
+                        cleaned_data.append(cleaned_part)
+
+                return cleaned_data
 
     def print_clean_response(self):
         response_data = self.get_clean_response()
@@ -145,6 +159,21 @@ class MouserPartSearchRequest(MouserBaseRequest):
                         'partSearchOptions': option,
                     }
                 }
+        if self.operation == 'keyword':
+            keyword = kwargs.get('keyword', None)
+            record_limit = kwargs.get('record_limit', None)
+            option = kwargs.get('option', 'None')
+
+            if keyword:
+                body = {
+                    'SearchByKeywordRequest': {
+                        "keyword": keyword,
+                        "records": record_limit,
+                        "startingRecord": 0,
+                        "searchOptions": option,
+                        "searchWithYourSignUpLanguage": "en",
+                    }
+                }
 
         return body
 
@@ -153,6 +182,22 @@ class MouserPartSearchRequest(MouserBaseRequest):
 
         kwargs = {
             'part_number': part_number,
+            'option': option,
+        }
+
+        self.body = self.get_body(**kwargs)
+
+        if self.api_key:
+            return self.run(self.body)
+        else:
+            return False
+        
+    def keyword_search(self, keyword, record_limit=0, option='None'):
+        '''Mouser Keyword Search'''
+
+        kwargs = {
+            'keyword': keyword,
+            'record_limit': record_limit,
             'option': option,
         }
 
