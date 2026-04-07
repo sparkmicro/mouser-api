@@ -22,6 +22,13 @@ API_KEYS_FILE = 'mouser_api_keys.yaml'
 def mouser_cli(request_type, operation, number, keyword, record_limit, option, export):
     ''' Main CLI entry point '''
 
+    # Determine operation and code based on request_type
+    if request_type == 'ibn':
+        number = operation
+        operation = 'getIBNs'
+    else:
+        operation = operation
+
     args = []
 
     # Create request
@@ -47,6 +54,17 @@ def mouser_cli(request_type, operation, number, keyword, record_limit, option, e
         request = MouserPartSearchRequest(operation, API_KEYS_FILE, *args)
 
         if request.url:
+            if operation == 'ibn':
+                if not number:
+                    print('[ERROR]\tMissing IBN Code')
+                else:
+                    search = request.ibn_search(number)
+                    if search:
+                        print('[LINK]\t' + request.url)
+                        print('[DATA]')
+                        print(json.dumps(request.get_response(), indent=4, sort_keys=True))
+                return
+            
             print(f'[LINK]\t{request.api_url}')
 
             if operation == 'partnumber':

@@ -93,6 +93,7 @@ class MouserPartSearchRequest(MouserBaseRequest):
         'partnumber': ('POST', '/search/partnumber'),
         'partnumberandmanufacturer': ('', ''),
         'manufacturerlist': ('', ''),
+        'ibn': ('GET', '/search/getIBNs?ibnCode='),
     }
 
     def get_clean_response(self):
@@ -207,3 +208,27 @@ class MouserPartSearchRequest(MouserBaseRequest):
             return self.run(self.body)
         else:
             return False
+
+    def ibn_search(self, ibn_code):
+        '''Mouser IBN Search'''
+
+        if not ibn_code:
+            return False
+
+        self.operation = 'ibn'
+        self._set_base_url_for_operation()
+        self.method, url_fragment = self.operations[self.operation]
+        self.body = {}
+        self.api_url = self.base_url + url_fragment + str(ibn_code)
+        self.url = self.api_url
+
+        return self.run()
+
+    def get_ibn_data(self):
+        response_data = self.get_response()
+        if isinstance(response_data, dict):
+            ibn_list = response_data.get('IBN', [])
+            if isinstance(ibn_list, list) and ibn_list:
+                return ibn_list[0]
+
+        return {}

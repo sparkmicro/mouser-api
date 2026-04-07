@@ -6,6 +6,7 @@ import requests
 
 # Mouser Base URL
 BASE_URL = 'https://api.mouser.com/api/v1.0'
+MOBILE_URL = 'https://api.mouser.com/api/mobile/v2'
 
 
 def get_api_keys(filename=None):
@@ -49,23 +50,28 @@ class MouserAPIRequest:
     def __init__(self, url, method, file_keys=None, *args):
         if not url or not method:
             return None
-        self.api_url = BASE_URL + url
+        self.api_url = getattr(self, 'base_url', BASE_URL) + url
         self.method = method
 
         # Append argument
         if len(args) == 1:
-            self.api_url += '/' + str(args[0])
+            self.api_url += str(args[0])
 
         # Append API Key
-        if self.name == 'Part Search':
+        if hasattr(self, 'name') and self.name == 'Part Search' and getattr(self, 'operation', None) == 'ibn':
+            self.api_key = None
+        elif hasattr(self, 'name') and self.name == 'Part Search':
             self.api_key = get_api_keys(file_keys)[1]
         else:
             self.api_key = get_api_keys(file_keys)[0]
 
-        if self.api_key:
-            self.url = self.api_url + '?apiKey=' + self.api_key
+        if self.api_key is not None:
+            if '?' in self.api_url:
+                self.url = self.api_url + '&apiKey=' + self.api_key
+            else:
+                self.url = self.api_url + '?apiKey=' + self.api_key
         else:
-            raise FileNotFoundError('API Keys Are Missing')
+            self.url = self.api_url
 
     def get(self, url):
         response = requests.get(url=url)
@@ -106,6 +112,7 @@ class MouserBaseRequest(MouserAPIRequest):
     allowed_methods = ['GET', 'POST']
     operation = None
     operations = {}
+    base_url = BASE_URL
 
     def __init__(self, operation, file_keys=None, *args):
         ''' Init '''
@@ -122,6 +129,7 @@ class MouserBaseRequest(MouserAPIRequest):
             return
             
         self.operation = operation
+        self._set_base_url_for_operation()
         (method, url) = self.operations.get(self.operation, ('', ''))
 
         if not url or not method or method not in self.allowed_methods:
@@ -129,6 +137,10 @@ class MouserBaseRequest(MouserAPIRequest):
             return
 
         super().__init__(url, method, file_keys, *args)
+
+    def _set_base_url_for_operation(self):
+        if self.operation == 'ibn':
+            self.base_url = MOBILE_URL
 
     def export_csv(self, file_path: str, data: dict):
         ''' Export dictionary data to CSV '''
