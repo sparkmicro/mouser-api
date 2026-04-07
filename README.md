@@ -82,6 +82,11 @@ Run `mouser --help` for more information about the usage.
 mouser search partnumber --number XXX
 ```
 
+#### IBN Search
+```bash
+mouser search ibn --number XXX
+```
+
 #### Export order to CSV
 ``` bash
 mouser order get --number XXX --export
